@@ -1,34 +1,48 @@
 {% extends 'base.html' %} {% block content %}
-<h2>{{ doubt.title }}</h2>
-<p>{{ doubt.description }}</p>
+<div class="container">
+  <h3>Title:{{ doubt.title }}</h3>
+  <p><strong>Description:</strong> {{ doubt.description }}</p>
 
-{% if doubt.image %}
-<img src="{{ doubt.image.url }}" alt="Doubt Image" width="100%" />
-{% endif %}
-
-<div class="comments-section">
-  <h3>Comments</h3>
-  {% for comment in doubt.comments.all %}
-  <div class="comment">
-    <p><strong>{{ comment.author }}</strong>: {{ comment.content }}</p>
+  {% if doubt.image %}
+  <div>
+    <label for="doubt-image"><strong>Attached Image:</strong></label>
+    <img id="doubt-image" src="{{ doubt.image.url }}" alt="Doubt Image" />
   </div>
-  {% empty %}
-  <p>No comments yet!</p>
-  {% endfor %}
+  {% endif %}
+
+  <div class="comments-section">
+    <h3>Comments</h3>
+    {% for comment in doubt.comments.all %}
+    <div class="comment-item">
+      <div class="comment-author">
+        Comment by: <strong>{{ comment.author }}</strong>
+        <small class="comment-time"
+          >{{ comment.created_at|date:"F j, Y, g:i a" }}</small
+        >
+      </div>
+      <p class="comment-content">{{ comment.content }}</p>
+    </div>
+    {% empty %}
+    <p>No comments yet!</p>
+    {% endfor %}
+  </div>
+
+  <form method="post">
+    {% csrf_token %}
+    <label for="content">Your Comment:</label>
+    <textarea
+      id="content"
+      name="content"
+      placeholder="Write your solution or suggestion..."
+      required
+    ></textarea>
+    <div class="buttons-container">
+      <a href="{% url 'doubts:home' %}">
+        <button type="button" class="secondary-btn">Back to Doubt List</button>
+      </a>
+      <button type="submit" class="comment-btn">Post Comment</button>
+    </div>
+  </form>
+
+  {% endblock %}
 </div>
-
-<h3>Post a Comment</h3>
-<form method="post">
-  {% csrf_token %}
-  <textarea
-    name="content"
-    placeholder="Write your solution or suggestion..."
-    required
-  ></textarea>
-  <button type="submit">Post Comment</button>
-</form>
-
-<a href="{% url 'doubts:home' %}">
-  <button>Back to Doubts</button>
-</a>
-{% endblock %}

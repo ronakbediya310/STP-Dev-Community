@@ -1,21 +1,24 @@
 {% extends 'base.html' %} {% block content %}
-<h2>Create a New Doubt</h2>
+<div class="container">
+  <h3 class="page-title">Create a New Doubt</h3>
 
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <label for="title">Title:</label>
-  <input type="text" name="title" id="title" required />
+  <form method="post" enctype="multipart/form-data" class="doubt-form">
+    {% csrf_token %}
+    <label for="title">Title:</label>
+    <input type="text" name="title" id="title" required />
 
-  <label for="description">Description:</label>
-  <textarea name="description" id="description" rows="4" required></textarea>
+    <label for="description">Description:</label>
+    <textarea name="description" id="description" rows="4" required></textarea>
 
-  <label for="image">Image (Optional):</label>
-  <input type="file" name="image" id="image" />
+    <label for="image">Related Image :</label>
+    <input type="file" name="image" id="image" />
 
-  <button type="submit">Post Doubt</button>
-</form>
-
-<a href="{% url 'doubts:home' %}">
-  <button>Back to Doubts</button>
-</a>
+    <div class="form-buttons">
+      <a href="{% url 'doubts:home' %}">
+        <button type="button" class="secondary-btn">Back to Doubt List</button>
+      </a>
+      <button type="submit" class="primary-btn">Post Doubt</button>
+    </div>
+  </form>
+</div>
 {% endblock %}
