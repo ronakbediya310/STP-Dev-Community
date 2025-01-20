@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Recent Doubts</h2>
+    <ul class="doubts-list">
+        {% for doubt in doubts %}
+            <li>
+                <h3><a href="{% url 'doubts:doubt_detail' doubt.pk %}">[{{doubt.id}}].{{ doubt.title }}</a></h3>
+                <p>{{ doubt.description }}</p>
+                <p><small>Posted by: {{ doubt.author }}</small></p>
+            </li>
+        {% empty %}
+            <p>No doubts posted yet!</p>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'doubts:create_doubt' %}">
+        <button>Create New Doubt</button>
+    </a>
+{% endblock %}
